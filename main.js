@@ -2,10 +2,12 @@ $(function() {
   // Grab DOM elements that I will work with
   var $carouselInner = $(".carousel-inner");
   var $carouselIndicators = $(".carousel-indicators");
+  var randNum = Math.floor((Math.random() * 1000000000) + 1);
+  var url = 'https://api.instagram.com/v1/users/' + randNum + '/media/recent/?access_token=357844946.7fa8ffd.f8c258ae549d4ef6bb0a3038b2444b7d';
 
   // Request products from API
   $.ajax({
-    url: 'https://api.instagram.com/v1/tags/lighthouse/media/recent?access_token=357844946.7fa8ffd.f8c258ae549d4ef6bb0a3038b2444b7d',
+    url: url,
     jsonp: 'callback',
     dataType: 'jsonp',
     data: {

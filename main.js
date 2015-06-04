@@ -14,21 +14,22 @@ $(function() {
     success: function(response) {
       console.log(response);
       var ctr = 0;
+
       response.data.forEach(function(photo) {
-        $("<div>").addClass("item")
-        .attr('id', ctr)
-        .append( 
-          $("<img>").addClass("photo-img")
-            .attr('src', photo.images.standard_resolution.url)
-        )
-        .appendTo('.carousel-inner');
-        
-        // photo.tags.forEach(function(tag) {
-        //   $photoList.append( $('<span class="label label-info">' + tag + '</span>') );  
-        // })
-      $carouselIndicators.append('<li class="ind" data-target="#carousel-example-generic" data-slide-to="' + ctr + '"></li>');
-      ctr++;
-    });
+        var tagCtr = 0;
+        $item = $("<div>").addClass("item").attr('id', ctr);
+        $("<img>").addClass("photo-img").attr('src', photo.images.standard_resolution.url).appendTo($item);
+        $caption = $('<div>').addClass('carousel-caption').appendTo($item);
+        photo.tags.forEach(function(tag) {
+          if (tagCtr < 3) {
+            $('<span class="label label-info">' + tag + '</span>').appendTo($caption);
+          }
+          tagCtr++;
+        })
+        $item.appendTo('.carousel-inner');
+        $carouselIndicators.append('<li class="ind" data-target="#carousel-example-generic" data-slide-to="' + ctr + '"></li>');
+        ctr++;
+      });
       $('#0').addClass('active');
       console.log("Data loaded");
     }

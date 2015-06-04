@@ -1,6 +1,7 @@
 $(function() {
   // Grab DOM elements that I will work with
-  var $photoList = $(".photo-list");
+  var $carouselInner = $(".carousel-inner");
+  var $carouselIndicators = $(".carousel-indicators");
 
   // Request products from API
   $.ajax({
@@ -12,18 +13,24 @@ $(function() {
     },
     success: function(response) {
       console.log(response);
+      var ctr = 0;
       response.data.forEach(function(photo) {
-        $photoList.append(
-          $("<div></div>").addClass("jumbotron")
-        );
-        $(".jumbotron").append(
-          $("<div></div>").addClass("photo"),
-          $("<img>").addClass("photo-img").attr('src', photo.images.standard_resolution.url),
-          photo.tags.forEach(function(tag) {
-            $photoList.append( $('<span class="label label-info">' + tag + '</span>') );  
-          })
+        $("<div>").addClass("item")
+        .attr('id', ctr)
+        .append( 
+          $("<img>").addClass("photo-img")
+            .attr('src', photo.images.standard_resolution.url)
         )
-      });
+        .appendTo('.carousel-inner');
+        
+        // photo.tags.forEach(function(tag) {
+        //   $photoList.append( $('<span class="label label-info">' + tag + '</span>') );  
+        // })
+      $carouselIndicators.append('<li class="ind" data-target="#carousel-example-generic" data-slide-to="' + ctr + '"></li>');
+      ctr++;
+    });
+      $('#0').addClass('active');
+      $('li').data('slide-to-0').addClass('active');
       console.log("Data loaded");
     }
   });

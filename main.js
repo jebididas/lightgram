@@ -30,7 +30,6 @@ $(function() {
       ctr++;
     });
       $('#0').addClass('active');
-      $('li').data('slide-to-0').addClass('active');
       console.log("Data loaded");
     }
   });

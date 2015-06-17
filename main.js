@@ -4,7 +4,7 @@ $(function() {
   var $carouselIndicators = $(".carousel-indicators");
   
   function addGuessNameButton(response){
-    $('<button>').addClass('btn btn-primary guessName').text('Guess Name').appendTo('.container');
+    $('<button>').addClass('btn btn-primary guessName').text('Guess Name').appendTo('.container').fadeIn();
     addProfilePic(response);
     $('.guessName').click(function(){
       var $this = $(this);
@@ -42,19 +42,26 @@ $(function() {
     }
   }
 
-  function apiCall(){
+  function apiCall(tag){
+    $('#newPerson').button('loading');
     var randNum = Math.floor((Math.random() * 100000000) + 1);
     var randUserUrl = 'https://api.instagram.com/v1/users/' + randNum + '/media/recent/?access_token=357844946.7fa8ffd.f8c258ae549d4ef6bb0a3038b2444b7d';
+    if(tag == undefined){
+      url = randUserUrl;
+    } else {
+      url = 'https://api.instagram.com/v1/tags/' + tag + '/media/recent?access_token=357844946.7fa8ffd.f8c258ae549d4ef6bb0a3038b2444b7d'
+    }
 
     $.ajax({
-      url: randUserUrl,
+      url: url,
       dataType: 'jsonp',
       success: function(response) {
+        
         var ctr = 0;
-
         if (response.data == undefined || response.data.length == 0) {
           apiCall();
         } else {
+          $('#newPerson').button('reset');
           console.log(response);
           addGuessNameButton(response);
           response.data.forEach(function(photo) {
@@ -93,6 +100,13 @@ $(function() {
     }); // end of .ajax
   } // end of apiCall
   apiCall();
+  $('#newPerson').on('click', function () {
+    location.reload();
+  })
+  $('#tagSearch').on('submit', function(){
+    event.preventDefault();
+    apiCall('lighthouses');
+  })
 
 });
 

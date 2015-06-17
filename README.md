@@ -7,3 +7,4 @@ Software used
 - Google Maps to locate where images were taken
 - JS and AJAX to bring in the JSON and display
 - Bootstrap for carousel
+
